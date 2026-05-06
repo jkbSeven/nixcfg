@@ -87,6 +87,7 @@
     git
     firefox
     wireguard-tools
+    vlc
 
     bluetui # TUI for bluetooth mgmt
   ];
