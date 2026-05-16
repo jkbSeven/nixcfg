@@ -17,6 +17,11 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+    "riscv64-linux"
+  ];
+
   networking.hostName = "nixos-thinkpad";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -33,13 +38,13 @@
   };
 
   hardware.bluetooth = {
-      enable = true;
-      powerOnBoot = false;
-      settings = {
-          General = {
-              Experimental = true;
-          };
+    enable = true;
+    powerOnBoot = false;
+    settings = {
+      General = {
+        Experimental = true;
       };
+    };
   };
 
   time.timeZone = "Europe/Warsaw";
@@ -88,6 +93,7 @@
     firefox
     wireguard-tools
     vlc
+    qemu
 
     bluetui # TUI for bluetooth mgmt
   ];
