@@ -124,6 +124,13 @@
     polkitPolicyOwners = [ "jkb" ];
   };
 
+  programs.obs-studio = {
+      enable = true;
+      plugins = [
+          pkgs.obs-studio-plugins.wlrobs
+      ];
+  };
+
   # keychain so that 1password and other apps can store credentials
   services.gnome.gnome-keyring.enable = true;
 
