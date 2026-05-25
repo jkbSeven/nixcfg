@@ -1,9 +1,15 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
     ./modules/hyprland.nix
   ];
+
   home.username = "jkb";
   home.homeDirectory = "/home/jkb";
 
@@ -28,6 +34,14 @@
 
     brightnessctl
   ];
+
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) (
+      map lib.getName [
+        pkgs.obsidian
+      ]
+    );
 
   home.file."${config.xdg.configHome}/tmux/tmux.conf".source = ./dotfiles/tmux.conf;
 
@@ -105,4 +119,6 @@
   };
 
   programs.wofi.enable = true;
+
+  programs.obsidian.enable = true;
 }
