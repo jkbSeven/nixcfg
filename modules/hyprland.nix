@@ -3,6 +3,10 @@
 {
   home.packages = with pkgs; [
     hyprpaper
+
+    # screenshots
+    grim
+    slurp
   ];
 
   programs.hyprlock.enable = true;
@@ -32,6 +36,7 @@
         "$mod, W, exec, firefox"
         "$mod, D, exec, wofi --show run"
         "$mod, L, exec, hyprlock"
+        ", Print, exec, grim -t png -g \"\$(slurp)\" \${HOME}/Pictures/screenshot_\$(date --iso-8601=seconds).png"
         "$mod SHIFT, R, exec, hyprctl reload"
         ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
         ",XF86MonBrightnessUp, exec, brightnessctl s +10%"
