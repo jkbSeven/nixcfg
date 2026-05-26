@@ -7,6 +7,8 @@
     # screenshots
     grim
     slurp
+
+    wl-clipboard
   ];
 
   programs.hyprlock.enable = true;
@@ -37,6 +39,7 @@
         "$mod, D, exec, wofi --show run"
         "$mod, L, exec, hyprlock"
         ", Print, exec, grim -t png -g \"\$(slurp)\" \${HOME}/Pictures/screenshot_\$(date --iso-8601=seconds).png"
+        "$mod, Print, exec, grim -t png -g \"\$(slurp)\" - | wl-copy"
         "$mod SHIFT, R, exec, hyprctl reload"
         ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
         ",XF86MonBrightnessUp, exec, brightnessctl s +10%"
