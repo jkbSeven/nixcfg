@@ -131,6 +131,8 @@
       ];
   };
 
+  programs.nix-ld.enable = true;
+
   # keychain so that 1password and other apps can store credentials
   services.gnome.gnome-keyring.enable = true;
 
