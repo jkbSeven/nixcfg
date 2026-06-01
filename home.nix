@@ -115,6 +115,7 @@
       imagemagick
       lua-language-server
       pyright
+      nil
     ];
   };
 
