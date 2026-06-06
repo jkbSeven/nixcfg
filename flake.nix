@@ -8,6 +8,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    colmena = {
+      url = "github:zhaofengli/colmena/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -15,6 +20,7 @@
       self,
       nixpkgs,
       home-manager,
+      colmena,
       ...
     }:
     let
@@ -46,6 +52,28 @@
           path = ./templates/C;
           description = "Baseline C env for Linux with gcc and clang";
         };
+      };
+
+      colmenaHive = colmena.lib.makeHive {
+        meta = {
+          nixpkgs = import nixpkgs {
+            system = "x86_64-linux";
+            overlays = [ ];
+          };
+        };
+
+        nginx =
+          { name, ... }:
+          {
+            imports = [
+              ./hosts/vm.nix
+              ./hosts/homelab/nginx-revproxy.nix
+            ];
+
+            networking.hostName = name;
+
+            deployment.targetUser = "admin";
+          };
       };
 
       formatter.${system} = pkgs.nixfmt;
