@@ -119,7 +119,5 @@
     ];
   };
 
-  programs.wofi.enable = true;
-
   programs.obsidian.enable = true;
 }
