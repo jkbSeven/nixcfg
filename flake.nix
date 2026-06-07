@@ -74,6 +74,19 @@
 
             deployment.targetUser = "admin";
           };
+
+        nextcloud =
+          { name, ... }:
+          {
+            imports = [
+              ./hosts/vm.nix
+              ./hosts/homelab/nextcloud.nix
+            ];
+
+            networking.hostName = name;
+
+            deployment.targetUser = "admin";
+          };
       };
 
       formatter.${system} = pkgs.nixfmt;

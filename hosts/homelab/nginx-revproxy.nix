@@ -56,6 +56,20 @@
         };
       };
 
+      "drive.jkb7.dev" = {
+        forceSSL = true;
+        enableACME = true;
+
+        # https://github.com/NixOS/nixpkgs/issues/210807
+        acmeRoot = null;
+
+        locations."/" = {
+          proxyPass = "http://nextcloud.srv.jkb7.dev";
+          proxyWebsockets = true;
+          extraConfig = "proxy_pass_header Authorization;";
+        };
+      };
+
     };
   };
 
