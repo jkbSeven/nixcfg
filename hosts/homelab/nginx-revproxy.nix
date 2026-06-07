@@ -27,6 +27,7 @@
     recommendedOptimisation = true;
 
     virtualHosts = {
+
       "photos.jkb7.dev" = {
         forceSSL = true;
         enableACME = true;
@@ -40,6 +41,21 @@
           extraConfig = "proxy_pass_header Authorization;";
         };
       };
+
+      "proxmox.jkb7.dev" = {
+        forceSSL = true;
+        enableACME = true;
+
+        # https://github.com/NixOS/nixpkgs/issues/210807
+        acmeRoot = null;
+
+        locations."/" = {
+          proxyPass = "https://proxmox.srv.jkb7.dev:8006";
+          proxyWebsockets = true;
+          extraConfig = "proxy_pass_header Authorization;";
+        };
+      };
+
     };
   };
 
