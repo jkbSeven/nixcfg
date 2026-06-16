@@ -58,12 +58,9 @@
     ];
 
     shellAliases = {
-      hm = "home-manager switch --flake ~/.config/home-manager#jkb";
       gs = "git status";
-      l = "ls -la";
       vim = "nvim";
-      vpn-conn = "sudo wg-quick up wg0"; # requires wg0.conf in /etc/wireguard/
-      vpn-dc = "sudo wg-quick down wg0";
+      icat = "kitten icat --fit=both"; # requires kitty terminal
     };
 
     sessionVariables = {
