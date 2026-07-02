@@ -38,6 +38,15 @@
           ];
         };
 
+        pc = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/pc/configuration.nix
+            home-manager.nixosModules.home-manager
+            { home-manager.users.jkb = import ./home.nix; }
+          ];
+        };
+
         vm-base = nixpkgs.lib.nixosSystem {
           inherit system;
 
