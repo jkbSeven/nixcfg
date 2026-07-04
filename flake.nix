@@ -2,11 +2,12 @@
   description = "NixOS config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     colmena = {
@@ -19,6 +20,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       colmena,
       ...
@@ -29,7 +31,7 @@
     in
     {
       nixosConfigurations = {
-        thinkpad6 = nixpkgs.lib.nixosSystem {
+        thinkpad6 = nixpkgs-unstable.lib.nixosSystem {
           inherit system;
           modules = [
             ./hosts/thinkpad6/configuration.nix
@@ -38,7 +40,7 @@
           ];
         };
 
-        pc = nixpkgs.lib.nixosSystem {
+        pc = nixpkgs-unstable.lib.nixosSystem {
           inherit system;
           modules = [
             ./hosts/pc/configuration.nix
