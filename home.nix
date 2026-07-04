@@ -80,21 +80,6 @@
     settings.user.email = "Jacob202@protonmail.com";
   };
 
-  programs.alacritty = {
-    enable = true;
-    #package = null;
-
-    settings = {
-      font = {
-        normal = {
-          family = "UbuntuMono Nerd Font";
-          style = "Regular";
-        };
-        size = 16;
-      };
-    };
-  };
-
   programs.kitty = {
     enable = true;
     font = {
@@ -105,6 +90,11 @@
 
   programs.neovim = {
     enable = true;
+    sideloadInitLua = true;
+
+    withNodeJs = false;
+    withPython3 = false;
+    withRuby = false;
 
     # extraLuaPackages = ps: [ ps.magick ];
 
