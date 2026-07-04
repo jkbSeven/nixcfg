@@ -9,6 +9,9 @@
     slurp
 
     wl-clipboard
+
+    # notifications, required e.g. for discord
+    mako
   ];
 
   programs.hyprlock.enable = true;
@@ -72,6 +75,7 @@
       exec-once = [
         "waybar"
         "hyprpaper"
+        "mako"
       ];
 
       animation = [

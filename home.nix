@@ -33,6 +33,7 @@
     nerd-fonts.ubuntu-mono
 
     brightnessctl
+    discord
   ];
 
   nixpkgs.config.allowUnfreePredicate =
@@ -40,6 +41,7 @@
     builtins.elem (lib.getName pkg) (
       map lib.getName [
         pkgs.obsidian
+        pkgs.discord
       ]
     );
 
