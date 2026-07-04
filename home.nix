@@ -34,6 +34,7 @@
 
     brightnessctl
     discord
+    spotify
   ];
 
   nixpkgs.config.allowUnfreePredicate =
@@ -42,6 +43,7 @@
       map lib.getName [
         pkgs.obsidian
         pkgs.discord
+        pkgs.spotify
       ]
     );
 
