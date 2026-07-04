@@ -76,7 +76,7 @@
   programs.hyprland = {
     enable = true;
     withUWSM = false;
-    xwayland.enable = false;
+    xwayland.enable = true;
   };
 
   programs.waybar.enable = true;
@@ -94,6 +94,10 @@
     plugins = [
       pkgs.obs-studio-plugins.wlrobs
     ];
+  };
+
+  programs.steam = {
+    enable = true;
   };
 
   programs.nix-ld.enable = true;
