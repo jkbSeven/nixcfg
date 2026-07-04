@@ -92,6 +92,12 @@
     };
   };
 
+  home.pointerCursor = {
+    package = pkgs.capitaine-cursors;
+    name = "capitaine-cursors";
+    size = 32;
+  };
+
   programs.neovim = {
     enable = true;
     sideloadInitLua = true;
