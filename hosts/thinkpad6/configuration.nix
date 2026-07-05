@@ -50,11 +50,11 @@
   };
 
   virtualisation.docker = {
-      enable = false;
-      rootless = {
-          enable = true;
-          setSocketVariable = true;
-      };
+    enable = false;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
   };
 
   time.timeZone = "Europe/Warsaw";
@@ -127,10 +127,10 @@
   };
 
   programs.obs-studio = {
-      enable = true;
-      plugins = [
-          pkgs.obs-studio-plugins.wlrobs
-      ];
+    enable = true;
+    plugins = [
+      pkgs.obs-studio-plugins.wlrobs
+    ];
   };
 
   programs.nix-ld.enable = true;
