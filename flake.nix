@@ -98,6 +98,20 @@
 
             deployment.targetUser = "admin";
           };
+
+        control-plane =
+          { name, ... }:
+          {
+            imports = [
+              ./hosts/vm.nix
+              ./modules/homelab
+            ];
+
+            networking.hostName = name;
+            homelab.monitoring.enable = true;
+
+            deployment.targetUser = "admin";
+          };
       };
 
       formatter.${system} = pkgs.nixfmt;
