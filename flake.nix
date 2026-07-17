@@ -100,7 +100,7 @@
           };
 
         control-plane =
-          { name, ... }:
+          { name, config, ... }:
           {
             imports = [
               ./hosts/vm.nix
@@ -108,7 +108,14 @@
             ];
 
             networking.hostName = name;
+
             homelab.monitoring.enable = true;
+            homelab.services.victoria-metrics = {
+              enable = true;
+              nodes = ["localhost"];
+            };
+            homelab.services.grafana.enable = true;
+
 
             deployment.targetUser = "admin";
           };
