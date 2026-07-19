@@ -58,7 +58,7 @@ in
 
     homelab.proxy.virtualHosts."grafana.${domain}" = {
       locations."/" = {
-        proxyPass = "http://${config.homelab.settings.thisNodeFqdn}:${cfg.port}";
+        proxyPass = "http://${config.homelab.settings.thisNodeFqdn}:${builtins.toString cfg.port}";
         proxyWebsockets = true;
         extraConfig = "proxy_pass_header Authorization;";
       };
