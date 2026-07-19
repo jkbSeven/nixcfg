@@ -23,10 +23,10 @@ in
     users.users.nextcloud = {
       isSystemUser = true;
       group = "nextcloud";
-      uid = config.homelab.users.nextcloud.uid;
+      uid = config.homelab.settings.users.nextcloud.uid;
     };
 
-    users.groups.nextcloud.gid = config.homelab.users.nextcloud.gid;
+    users.groups.nextcloud.gid = config.homelab.settings.users.nextcloud.gid;
 
     services.nextcloud = {
       enable = true;
