@@ -6,6 +6,6 @@ This is necessary for syncing ids between hosts that are not nix-managed, e.g. a
 {
   nextcloud = {
     uid = 4000;
-    guid = 4000;
+    gid = 4000;
   };
 }
