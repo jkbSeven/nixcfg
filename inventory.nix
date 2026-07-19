@@ -35,6 +35,17 @@ Future extensions:
       tags = [ ];
     };
 
+    drive = {
+      ip = "10.10.10.77";
+      roles = [ "nextcloud" ];
+      vm = {
+        cores = 2;
+        memory = 4096;
+        disk = 16384;
+      };
+      tags = [ ];
+    };
+
     nas = {
       ip = "10.10.10.11";
       roles = [ ];
