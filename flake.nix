@@ -74,14 +74,14 @@
         };
       };
 
-      colmenaHive = colmena.lib.makeHive {
+      colmenaHive = colmena.lib.makeHive ({
         meta = {
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
             overlays = [ ];
           };
         };
-      } // builtins.mapAttrs mkNode inventory.nodes;
+      } // builtins.mapAttrs mkNode inventory.nodes);
 
       formatter.${system} = pkgs.nixfmt;
     };
