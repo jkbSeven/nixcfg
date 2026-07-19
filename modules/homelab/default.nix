@@ -1,9 +1,7 @@
 { ... }:
 {
   imports = [
-    ./settings.nix
-    ./monitoring.nix
-    ./victoria-metrics.nix
-    ./grafana.nix
+    ./services
+    ./schemas
   ];
 }
