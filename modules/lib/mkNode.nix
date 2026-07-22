@@ -27,7 +27,10 @@ in
   };
 
   deployment = {
-    targetHost = fqdn;
+    # if targetHost = null, then colmena doesn't deploy it with `colmena apply`
+    # but the node is still evaluated, which is exactly what we need
+    # publisher pattern works, while not causing any deployment issues
+    targetHost = if node.vm != null then fqdn else null;
     targetUser = "admin";
     tags = node.tags or [ ];
   };
