@@ -53,12 +53,14 @@ _build_tf_config env=default_env:
 tf env=default_env +ARGS: (_build_tf_config env)
     terraform -chdir=homelab/deploy/{{ env }}/tf {{ ARGS }}
 
-# deploy infra changes for a given environment (colmena + tf)
+# deploy infra changes for a given environment (tf + colmena)
 [arg('env', long, pattern=env_pattern)]
+[arg('ssh_key_path', long)]
 [group('homelab')]
-deploy env=default_env: (_build_tf_config env)
+deploy env=default_env ssh_key_path="~/.ssh/keys/vm": (_build_tf_config env)
     terraform -chdir=homelab/deploy/{{ env }}/tf apply
-    colmena apply -f homelab/deploy/{{ env }}/hive.nix
+    cd homelab/deploy/{{ env }}/secrets && agenix -i "{{ ssh_key_path }}" --rekey
+    colmena apply --config homelab/deploy/{{ env }}/hive.nix
 
 # switch to new nixos configuration on the current host
 switch config=default_switch_config:
