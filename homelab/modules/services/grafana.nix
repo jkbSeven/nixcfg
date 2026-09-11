@@ -20,6 +20,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    age.secrets.grafana = {
+      file = secretsDir + /grafana.age;
+      owner = config.systemd.services.grafana.serviceConfig.User;
+      mode = "0400";
+    };
+
     services.grafana = {
       enable = true;
 
@@ -41,7 +47,10 @@ in
 
       settings = {
         analytics.reporting_enable = false;
-        security.secret_key = "${secretsDir}/grafana.secret";
+
+        # the $__file{} syntax makes Grafana read the file instead of treating the path itself as a secret
+        # https://grafana.com/docs/grafana/v13.2/setup-grafana/configure-grafana/#file-provider
+        security.secret_key = "\$__file{${config.age.secrets.grafana.path}}";
 
         server = {
           http_addr = "0.0.0.0";
@@ -50,15 +59,6 @@ in
         };
 
       };
-    };
-
-    deployment.keys."grafana.secret" = {
-      keyCommand = [ "op" "read" "op://homelab/Grafana/secret"];
-
-      destDir = secretsDir;
-      user = "grafana";
-      permissions = "0400";
-      uploadAt = "pre-activation";
     };
 
     homelab.proxy.virtualHosts."grafana.${domain}" = {

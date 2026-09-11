@@ -31,6 +31,17 @@ let
       };
     }) virtualHostsNames);
 
+  extraDNSRecords = builtins.listToAttrs (map (entry:
+    {
+      name = builtins.replaceStrings ["."] ["-"] entry.name;
+      value = {
+        name = entry.name;
+        type = "A";
+        record = entry.ip;
+        ttl = 0;
+      };
+    }) (builtins.attrValues inventory.staticDNSRecords) );
+
 in
 {
 
@@ -214,5 +225,5 @@ in
       note = "Homelab node '${name}', managed through terraform";
     }) inventory.nodes;
 
-  resource.unifi_dns_record = nodesDNSRecords // proxiedDNSRecords;
+  resource.unifi_dns_record = nodesDNSRecords // proxiedDNSRecords // extraDNSRecords;
 }

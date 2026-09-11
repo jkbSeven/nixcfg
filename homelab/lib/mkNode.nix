@@ -4,7 +4,7 @@
 */
 
 { lib }:
-{ inventory, modules, root }:
+{ inventory, modules, secretsDir, root }:
 name:
 node:
 let
@@ -17,11 +17,10 @@ in
   networking.hostName = name;
 
   homelab.settings = {
-    inventory = inventory;
+    inherit inventory secretsDir;
+
     users = inventory.users;
     domain = inventory.domain;
-
-    secretsDir = "/var/lib/secrets";
 
     thisNode = node;
     thisNodeFqdn = fqdn;

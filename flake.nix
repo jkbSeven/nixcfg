@@ -92,6 +92,7 @@
               ./homelab/modules
               agenix.nixosModules.default
             ];
+            secretsDir = ./homelab/deploy/prod/secrets;
             root = self;
           };
         in
@@ -104,7 +105,7 @@
               };
             };
           }
-          // builtins.mapAttrs mkNode inventory.nodes;
+          // builtins.mapAttrs mkNode (libHomelab.filterNonNixosNodes inventory.nodes);
 
           tf = terranix.lib.terranixConfiguration {
             system = linuxSystem;

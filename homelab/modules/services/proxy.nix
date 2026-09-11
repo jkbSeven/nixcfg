@@ -26,13 +26,20 @@ in
 
   config = lib.mkIf cfg.enable {
 
+    age.secrets.cloudflare-dns = {
+      file = secretsDir + /cloudflare-dns.age;
+      owner = "acme";
+      group = "nginx";
+      mode = "0640";
+    };
+
     security.acme = {
       acceptTerms = true;
 
       defaults = {
         email = "Jacob202@pm.me";
         dnsProvider = "cloudflare";
-        environmentFile = "${secretsDir}/cloudflare";
+        environmentFile = config.age.secrets.cloudflare-dns.path;
       };
 
       certs = {

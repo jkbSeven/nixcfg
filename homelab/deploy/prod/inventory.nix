@@ -54,6 +54,14 @@ rec {
       tags = [ ];
     };
 
+    proxmox = {
+      ip = "${baseIP}.10";
+      mac = "58:47:ca:78:5c:6c";
+      roles = [ ];
+      vm = null;
+      tags = [ ];
+    };
+
   };
 
   users = {
@@ -66,6 +74,17 @@ rec {
   roles = builtins.listToAttrs (
     map (roleName: { name = roleName; value = roleName; }) ["proxy" "monitoring" "nextcloud"]
   );
+
+  staticDNSRecords = {
+    immich = {
+      name = "immich.srv.${domain}";
+      ip = nodes.nas.ip;
+    };
+    nas = {
+      name = "nas.jkb7.dev";
+      ip = nodes.nas.ip;
+    };
+  };
 
   extraProxyVHosts = {
     "proxmox.${domain}" = {
@@ -85,7 +104,7 @@ rec {
           proxy_send_timeout 3600s;
       */
       locations."/" = {
-        proxyPass = "http://immich.srv.jkb7.dev:30041";
+        proxyPass = "http://${staticDNSRecords.immich.name}:30041";
         proxyWebsockets = true;
         extraConfig = ''
           client_max_body_size 4G;
