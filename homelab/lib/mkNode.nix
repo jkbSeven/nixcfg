@@ -1,10 +1,10 @@
 /*
 `name` and `node` (config) of currently processed node (from inventory.nix) through builtins.mapAttrs
-`users` and `inventory` are basically loaded from users.nix and inventory.nix
+``inventory` is loaded from inventory.nix
 */
 
 { lib }:
-{ users, inventory, modules, root }:
+{ inventory, modules, secretsDir, root }:
 name:
 node:
 let
@@ -17,11 +17,10 @@ in
   networking.hostName = name;
 
   homelab.settings = {
-    inventory = inventory;
-    users = users;
-    domain = inventory.domain;
+    inherit inventory secretsDir;
 
-    secretsDir = "/var/lib/secrets";
+    users = inventory.users;
+    domain = inventory.domain;
 
     thisNode = node;
     thisNodeFqdn = fqdn;
@@ -31,6 +30,7 @@ in
   services.prometheus.exporters.node = {
     enable = true;
     openFirewall = true;
+    port = 9100;
   };
 
   homelab.monitoring.scrapeTargets = [

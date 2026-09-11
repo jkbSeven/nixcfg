@@ -30,6 +30,12 @@ in
 
     users.groups.nextcloud.gid = config.homelab.settings.users.nextcloud.gid;
 
+    age.secrets.nextcloud = {
+      file = secretsDir + /nextcloud.age;
+      owner = "nextcloud";
+      mode = "0400";
+    };
+
     services.nextcloud = {
       enable = true;
       package = pkgs.nextcloud33;
@@ -38,18 +44,9 @@ in
       datadir = "/mnt/nextcloud_data";
       maxUploadSize = maxUploadSize;
 
-      config.adminpassFile = "${secretsDir}/nextcloud.secret";
+      config.adminpassFile = config.age.secrets.nextcloud.path;
       config.dbtype = "pgsql";
       database.createLocally = true;
-    };
-
-    deployment.keys."nextcloud.secret" = {
-      keyCommand = [ "op" "read" "op://homelab/Nextcloud/password"];
-
-      destDir = secretsDir;
-      user = "nextcloud";
-      permissions = "0400";
-      uploadAt = "pre-activation";
     };
 
     systemd.services.remotefs-tmpfiles = {

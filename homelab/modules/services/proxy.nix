@@ -19,12 +19,19 @@ let
   };
 
   discoverVHosts = nodes: map (n: builtins.mapAttrs (_: config: defaultVHostConfig // config) n.config.homelab.proxy.virtualHosts) (builtins.attrValues nodes);
-  extraVHosts = lib.mapAttrsToList (name: config: { "${name}.${domain}" = (defaultVHostConfig // config); } ) config.homelab.settings.inventory.extraProxyVHosts;
+  extraVHosts = lib.mapAttrsToList (name: config: { "${name}" = (defaultVHostConfig // config); } ) config.homelab.settings.inventory.extraProxyVHosts;
 in
 {
   options.homelab.services.proxy.enable = lib.mkEnableOption "Enable Nginx proxy that uses virtualHosts published by other modules";
 
   config = lib.mkIf cfg.enable {
+
+    age.secrets.cloudflare-dns = {
+      file = secretsDir + /cloudflare-dns.age;
+      owner = "acme";
+      group = "nginx";
+      mode = "0640";
+    };
 
     security.acme = {
       acceptTerms = true;
@@ -32,7 +39,7 @@ in
       defaults = {
         email = "Jacob202@pm.me";
         dnsProvider = "cloudflare";
-        environmentFile = "${secretsDir}/cloudflare";
+        environmentFile = config.age.secrets.cloudflare-dns.path;
       };
 
       certs = {
@@ -41,16 +48,6 @@ in
           group = "nginx";
         };
       };
-    };
-
-    deployment.keys."cloudflare" = {
-      keyCommand = [ "op" "read" "op://homelab/cloudflare-dns-token/credential"];
-
-      destDir = secretsDir;
-      user = "acme";
-      group = "nginx";
-      permissions = "0640";
-      uploadAt = "pre-activation";
     };
 
     services.nginx = {
