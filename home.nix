@@ -39,13 +39,12 @@
 
   nixpkgs.config.allowUnfreePredicate =
     pkg:
-    builtins.elem (lib.getName pkg) (
-      map lib.getName [
-        pkgs.obsidian
-        pkgs.discord
-        pkgs.spotify
-      ]
-    );
+    builtins.elem (lib.getName pkg) [
+      "obsidian"
+      "discord"
+      "discord-unwrapped"
+      "spotify"
+    ];
 
   home.file."${config.xdg.configHome}/tmux/tmux.conf".source = ./dotfiles/tmux.conf;
 
