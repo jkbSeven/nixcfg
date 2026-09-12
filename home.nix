@@ -8,6 +8,7 @@
 {
   imports = [
     ./modules/hyprland.nix
+    ./modules/home-manager/ghostty.nix
   ];
 
   home.username = "jkb";
@@ -63,7 +64,6 @@
     shellAliases = {
       gs = "git status";
       vim = "nvim";
-      icat = "kitten icat --fit=both"; # requires kitty terminal
     };
 
     sessionVariables = {
@@ -83,13 +83,7 @@
     settings.user.email = "Jacob202@protonmail.com";
   };
 
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "UbuntuMono Nerd Font";
-      size = 16;
-    };
-  };
+  personal.programs.ghostty.enable = true;
 
   home.pointerCursor = {
     package = pkgs.capitaine-cursors;
