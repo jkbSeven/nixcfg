@@ -153,6 +153,11 @@
           path = ./templates/C;
           description = "Baseline C env for Linux with gcc and clang";
         };
+
+        python-uv = {
+          path = ./templates/python-uv;
+          description = "Baseline Python3 + uv development environment";
+        };
       };
 
       formatter = forAllSystems (
