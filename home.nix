@@ -8,6 +8,7 @@
 {
   imports = [
     ./modules/hyprland.nix
+    ./modules/home-manager/ghostty.nix
   ];
 
   home.username = "jkb";
@@ -82,6 +83,8 @@
     settings.user.name = "jkbSeven";
     settings.user.email = "Jacob202@protonmail.com";
   };
+
+  personal.programs.ghostty.enable = true;
 
   programs.kitty = {
     enable = true;
