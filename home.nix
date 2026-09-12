@@ -64,7 +64,6 @@
     shellAliases = {
       gs = "git status";
       vim = "nvim";
-      icat = "kitten icat --fit=both"; # requires kitty terminal
     };
 
     sessionVariables = {
@@ -85,14 +84,6 @@
   };
 
   personal.programs.ghostty.enable = true;
-
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "UbuntuMono Nerd Font";
-      size = 16;
-    };
-  };
 
   home.pointerCursor = {
     package = pkgs.capitaine-cursors;
