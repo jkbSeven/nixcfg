@@ -31,7 +31,7 @@
     settings = {
       "$mod" = "SUPER";
 
-      "$terminal" = "kitty";
+      "$terminal" = "ghostty";
       "$fileManager" = "dolphin";
       "$menu" = "wofi";
 
