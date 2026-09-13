@@ -1,8 +1,8 @@
 host := `hostname`
 default_switch_config := if host == "nixos-pc" { 
     "pc" 
-} else if host == "nixos-thinkpad" {
-    "thinkpad6"
+} else if host == "nixos-laptop" {
+    "laptop"
 } else {
     "unsupported"
 }

@@ -61,7 +61,7 @@
       "wheel"
     ];
     shell = pkgs.zsh;
-    packages = with pkgs; [ ];
+    packages = [ ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -69,7 +69,6 @@
     vim
     git
     firefox
-    wireguard-tools
     vlc
     qemu
   ];
@@ -99,9 +98,7 @@
     ];
   };
 
-  programs.steam = {
-    enable = true;
-  };
+  programs.steam.enable = true;
 
   programs.nix-ld.enable = true;
 

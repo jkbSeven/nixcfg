@@ -1,0 +1,112 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+
+{
+  imports = [
+    ../../modules/home-manager
+  ];
+
+  home.username = "jkb";
+  home.homeDirectory = "/home/jkb";
+
+  home.stateVersion = "25.11";
+
+  programs.home-manager.enable = true;
+
+  fonts.fontconfig.enable = true;
+
+  home.packages = with pkgs; [
+    zsh
+    git
+    bat
+    tmux
+    fzf
+    jq
+    fd
+    ripgrep
+
+    nerd-fonts.ubuntu-mono
+
+    discord
+    spotify
+  ];
+
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "obsidian"
+      "discord"
+      "discord-unwrapped"
+      "spotify"
+    ];
+
+  home.file."${config.xdg.configHome}/tmux/tmux.conf".source = ../../dotfiles/tmux.conf;
+
+  home.file.".local/bin" = {
+    source = ../../dotfiles/.local/bin;
+    recursive = true;
+  };
+
+  programs.zsh = {
+    enable = true;
+
+    setOptions = [
+      "vi" # vim motions in the terminal
+    ];
+
+    shellAliases = {
+      gs = "git status";
+      vim = "nvim";
+    };
+
+    sessionVariables = {
+      EDITOR = "nvim";
+    };
+  };
+
+  programs.zsh.oh-my-zsh = {
+    enable = true;
+    plugins = [ "git" ];
+    theme = "robbyrussell";
+  };
+
+  programs.git = {
+    enable = true;
+    settings.user.name = "jkbSeven";
+    settings.user.email = "Jacob202@protonmail.com";
+  };
+
+  personal.programs.hyprland.enable = true;
+
+  personal.programs.ghostty.enable = true;
+
+  home.pointerCursor = {
+    package = pkgs.capitaine-cursors;
+    name = "capitaine-cursors";
+    size = 32;
+  };
+
+  programs.neovim = {
+    enable = true;
+    sideloadInitLua = true;
+
+    withNodeJs = false;
+    withPython3 = false;
+    withRuby = false;
+
+    # extraLuaPackages = ps: [ ps.magick ];
+
+    extraPackages = with pkgs; [
+      imagemagick
+      lua-language-server
+      pyright
+      nil
+    ];
+  };
+
+  programs.obsidian.enable = true;
+}
