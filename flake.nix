@@ -45,12 +45,12 @@
     in
     {
       nixosConfigurations = {
-        thinkpad6 = nixpkgs-unstable.lib.nixosSystem {
+        laptop = nixpkgs-unstable.lib.nixosSystem {
           system = linuxSystem;
           modules = [
-            ./hosts/thinkpad6/configuration.nix
+            ./hosts/laptop/configuration.nix
             home-manager.nixosModules.home-manager
-            { home-manager.users.jkb = import ./home.nix; }
+            { home-manager.users.jkb = import ./hosts/laptop/home.nix; }
           ];
         };
 
@@ -59,7 +59,7 @@
           modules = [
             ./hosts/pc/configuration.nix
             home-manager.nixosModules.home-manager
-            { home-manager.users.jkb = import ./home.nix; }
+            { home-manager.users.jkb = import ./hosts/pc/home.nix; }
           ];
         };
 

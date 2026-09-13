@@ -12,7 +12,7 @@
 
   boot.loader.systemd-boot = {
     enable = true;
-    configurationLimit = 3;
+    configurationLimit = 5;
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -24,7 +24,7 @@
     "riscv64-linux"
   ];
 
-  networking.hostName = "nixos-thinkpad";
+  networking.hostName = "nixos-laptop";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -91,14 +91,14 @@
       "wheel"
     ];
     shell = pkgs.zsh;
-    packages = with pkgs; [ ];
+    packages = [ ];
   };
 
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     bat
-    vim # Nano editor is installed by default.
+    vim
     git
     firefox
     wireguard-tools

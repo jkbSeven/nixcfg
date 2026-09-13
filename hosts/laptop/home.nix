@@ -7,8 +7,7 @@
 
 {
   imports = [
-    ./modules/hyprland.nix
-    ./modules/home-manager/ghostty.nix
+    ../../modules/home-manager
   ];
 
   home.username = "jkb";
@@ -30,10 +29,8 @@
     fd
     ripgrep
 
-    # obsidian - fails to run as expects opengl drivers in the Nix-used /run/opengl_..., but they are installed with pacman
     nerd-fonts.ubuntu-mono
 
-    brightnessctl
     discord
     spotify
   ];
@@ -47,10 +44,10 @@
       "spotify"
     ];
 
-  home.file."${config.xdg.configHome}/tmux/tmux.conf".source = ./dotfiles/tmux.conf;
+  home.file."${config.xdg.configHome}/tmux/tmux.conf".source = ../../dotfiles/tmux.conf;
 
   home.file.".local/bin" = {
-    source = ./dotfiles/bin;
+    source = ../../dotfiles/.local/bin;
     recursive = true;
   };
 
@@ -82,6 +79,8 @@
     settings.user.name = "jkbSeven";
     settings.user.email = "Jacob202@protonmail.com";
   };
+
+  personal.programs.hyprland.enable = true;
 
   personal.programs.ghostty.enable = true;
 
