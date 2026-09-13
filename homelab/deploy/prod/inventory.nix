@@ -16,8 +16,9 @@ rec {
       roles = [ roles.proxy ];
       vm = {
         cores = 2;
-        memory = 4096;
-        disk = 16384;
+        memory = 4096; # MB
+        disk = 16;  # GB/GiB (?)
+        startOnBoot = true;
       };
       tags = [ ];
     };
@@ -27,9 +28,10 @@ rec {
       mac = "${baseProxmoxMAC}:00:02";
       roles = [ roles.monitoring ];
       vm = {
-        cores = 4;
+        cores = 2;
         memory = 4096;
-        disk = 65536;
+        disk = 128;
+        startOnBoot = true;
       };
       tags = [ ];
     };
@@ -41,7 +43,8 @@ rec {
       vm = {
         cores = 2;
         memory = 4096;
-        disk = 16384;
+        disk = 32;
+        startOnBoot = false;
       };
       tags = [ ];
     };

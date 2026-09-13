@@ -92,6 +92,8 @@ in
       # vm_id = ...;
       tags = [ "prod" ];
 
+      on_boot = node.vm.startOnBoot;
+
       agent = {
         enabled = true;
         wait_for_ip = {
@@ -106,8 +108,9 @@ in
 
       disk = {
         interface = "virtio0";
-        file_format = "qcow2";
+        file_format = "raw";
         import_from = "\${proxmox_virtual_environment_file.base-nixos-image.id}";
+        size = node.vm.disk;
       };
 
       memory.dedicated = node.vm.memory;
