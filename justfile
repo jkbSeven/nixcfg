@@ -71,3 +71,27 @@ switch config=default_switch_config:
         exit 1
     fi
     sudo nixos-rebuild switch --flake .#{{ config }}
+
+# update nixpkgs or nixpkgs-unstable
+[arg('stable', long, value="1")]
+[arg('unstable', long, value="1")]
+update-nixpkgs stable="0" unstable="0":
+    #!/bin/sh
+
+    if [ $(( {{ stable }} ^ {{ unstable }} )) -eq 0 ]; then
+        printf 'You either tried to update both stable and unstable packages or forgot to select which nixpkgs to update\n'
+        exit 1
+    fi
+
+    nixpkgs_type="nixpkgs"
+    if [ {{ unstable }} -eq 1 ]; then
+        nixpkgs_type="nixpkgs-unstable"
+    fi
+
+    git checkout -b "chore/update-${nixpkgs_type}-revision-$(date +%s)" || exit 1
+    nix flake update "$nixpkgs_type" || exit 1
+    git add flake.lock || exit 1
+    nixos-rebuild build --flake .#{{ default_switch_config }} || exit 1
+
+    printf '\nSuccessfully updated %s revision\n' "$nixpkgs_type"
+    printf 'Suggested commit command: git commit -m "chore: updated %s revision"\n' "$nixpkgs_type"
