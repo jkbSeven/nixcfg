@@ -91,7 +91,6 @@ update-nixpkgs stable="0" unstable="0":
     git checkout -b "chore/update-${nixpkgs_type}-revision-$(date +%s)" || exit 1
     nix flake update "$nixpkgs_type" || exit 1
     git add flake.lock || exit 1
-    nixos-rebuild build --flake .#{{ default_switch_config }} || exit 1
 
     printf '\nSuccessfully updated %s revision\n' "$nixpkgs_type"
-    printf 'Suggested commit command: git commit -m "chore: updated %s revision"\n' "$nixpkgs_type"
+    printf 'commit: git commit -m "chore: updated %s revision"\n' "$nixpkgs_type"
