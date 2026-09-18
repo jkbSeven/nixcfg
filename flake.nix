@@ -42,6 +42,7 @@
       forAllSystems = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
 
       libHomelab = import ./homelab/lib;
+      dotfilesPath = ./dotfiles;
     in
     {
       nixosConfigurations = {
@@ -50,7 +51,10 @@
           modules = [
             ./hosts/laptop/configuration.nix
             home-manager.nixosModules.home-manager
-            { home-manager.users.jkb = import ./hosts/laptop/home.nix; }
+            {
+              home-manager.users.jkb = import ./hosts/laptop/home.nix;
+              home-manager.extraSpecialArgs = { inherit dotfilesPath; };
+            }
           ];
         };
 
@@ -59,7 +63,10 @@
           modules = [
             ./hosts/pc/configuration.nix
             home-manager.nixosModules.home-manager
-            { home-manager.users.jkb = import ./hosts/pc/home.nix; }
+            {
+              home-manager.users.jkb = import ./hosts/pc/home.nix;
+              home-manager.extraSpecialArgs = { inherit dotfilesPath; };
+            }
           ];
         };
 
