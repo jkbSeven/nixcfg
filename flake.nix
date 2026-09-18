@@ -90,42 +90,42 @@
       */
       infra = {
         prod =
-        let
-          inventory = import ./homelab/deploy/prod/inventory.nix;
-          mkNode = libHomelab.mkNode {
-            inherit inventory;
-            modules = [
-              ./hosts/vm.nix
-              ./homelab/modules
-              agenix.nixosModules.default
-            ];
-            secretsDir = ./homelab/deploy/prod/secrets;
-            root = self;
-          };
-        in
-        {
-          colmena = {
-            meta = {
-              nixpkgs = import nixpkgs {
-                system = linuxSystem;
-                overlays = [ ];
+          let
+            inventory = import ./homelab/deploy/prod/inventory.nix;
+            mkNode = libHomelab.mkNode {
+              inherit inventory;
+              modules = [
+                ./hosts/vm.nix
+                ./homelab/modules
+                agenix.nixosModules.default
+              ];
+              secretsDir = ./homelab/deploy/prod/secrets;
+              root = self;
+            };
+          in
+          {
+            colmena = {
+              meta = {
+                nixpkgs = import nixpkgs {
+                  system = linuxSystem;
+                  overlays = [ ];
+                };
+              };
+            }
+            // builtins.mapAttrs mkNode (libHomelab.filterNonNixosNodes inventory.nodes);
+
+            tf = terranix.lib.terranixConfiguration {
+              system = linuxSystem;
+              modules = [
+                ./homelab/deploy/prod/tf/main.nix
+              ];
+              extraArgs = {
+                inventory = import ./homelab/deploy/prod/inventory.nix;
+                evaluatedNodes = colmena.lib.makeHive self.infra.prod.colmena;
+                inherit libHomelab;
               };
             };
-          }
-          // builtins.mapAttrs mkNode (libHomelab.filterNonNixosNodes inventory.nodes);
-
-          tf = terranix.lib.terranixConfiguration {
-            system = linuxSystem;
-            modules = [
-              ./homelab/deploy/prod/tf/main.nix
-            ];
-            extraArgs = {
-              inventory = import ./homelab/deploy/prod/inventory.nix;
-              evaluatedNodes = colmena.lib.makeHive self.infra.prod.colmena;
-              inherit libHomelab;
-            };
           };
-        };
       };
 
       devShells = forAllSystems (

@@ -61,13 +61,10 @@
     setEditorEnvVar = true;
   };
 
-  programs.zsh.oh-my-zsh = {
+  personal.programs.hyprland = {
     enable = true;
-    plugins = [ "git" ];
-    theme = "robbyrussell";
+    withWaybar = true;
   };
-
-  personal.programs.hyprland.enable = true;
 
   personal.programs.ghostty.enable = true;
 

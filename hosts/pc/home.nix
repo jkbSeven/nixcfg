@@ -61,7 +61,10 @@
     setEditorEnvVar = true;
   };
 
-  personal.programs.hyprland.enable = true;
+  personal.programs.hyprland = {
+    enable = true;
+    withWaybar = true;
+  };
 
   personal.programs.ghostty.enable = true;
 

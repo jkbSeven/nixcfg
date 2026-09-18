@@ -3,7 +3,7 @@
   pkgs,
   lib,
   ...
-}@inputs:
+}:
 
 let
   cfg = config.personal.programs.tmux;

@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
@@ -11,11 +10,6 @@ in
 {
   options.personal.programs.git = {
     enable = lib.mkEnableOption "Enable git";
-
-    package = lib.mkOption {
-      type = lib.types.package;
-      default = pkgs.git;
-    };
 
     username = lib.mkOption {
       type = lib.types.str;
@@ -36,8 +30,6 @@ in
   config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
-      inherit (cfg) package;
-
       settings.user.name = cfg.username;
       settings.user.email = cfg.email;
     }
