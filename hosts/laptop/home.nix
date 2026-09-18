@@ -1,9 +1,8 @@
 {
-  config,
   pkgs,
   lib,
   ...
-}:
+}@inputs:
 
 {
   imports = [
@@ -48,7 +47,12 @@
 
   personal.programs.tmux = {
     enable = true;
-    withSessionizer = true;
+    configFile = inputs.dotfilesPath + /tmux.conf;
+
+    sessionizer = {
+      enable = true;
+      scriptFile = inputs.dotfilesPath + /.local/bin/tmux-sessionizer;
+    };
   };
 
   personal.programs.neovim = {
