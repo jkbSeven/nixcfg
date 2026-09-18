@@ -51,6 +51,8 @@ in
 
     withSystemd = lib.mkEnableOption "Enable systemd integration with Hyprland";
 
+    withWaybar = lib.mkEnableOption "Enable and configure waybar";
+
     monitors = lib.mkOption {
       type = lib.types.submodule {
         options = {
@@ -189,7 +191,7 @@ in
       source = ../../dotfiles/hyprpaper.conf;
     };
 
-    programs.waybar = {
+    programs.waybar = lib.mkIf cfg.withWaybar {
       enable = true;
       settings.main = {
         height = 30;
