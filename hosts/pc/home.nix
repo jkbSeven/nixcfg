@@ -20,14 +20,8 @@
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
-    zsh
-    git
     bat
-    tmux
-    fzf
     jq
-    fd
-    ripgrep
 
     nerd-fonts.ubuntu-mono
 
@@ -44,40 +38,23 @@
       "spotify"
     ];
 
-  home.file."${config.xdg.configHome}/tmux/tmux.conf".source = ../../dotfiles/tmux.conf;
-
-  home.file.".local/bin" = {
-    source = ../../dotfiles/.local/bin;
-    recursive = true;
+  personal.programs.zsh = {
+    enable = true;
+    enableVimMotions = true;
+    oh-my-zsh.enable = true;
   };
 
-  programs.zsh = {
+  personal.programs.git.enable = true;
+
+  personal.programs.tmux = {
     enable = true;
-
-    setOptions = [
-      "vi" # vim motions in the terminal
-    ];
-
-    shellAliases = {
-      gs = "git status";
-      vim = "nvim";
-    };
-
-    sessionVariables = {
-      EDITOR = "nvim";
-    };
+    withSessionizer = true;
   };
 
-  programs.zsh.oh-my-zsh = {
+  personal.programs.neovim = {
     enable = true;
-    plugins = [ "git" ];
-    theme = "robbyrussell";
-  };
-
-  programs.git = {
-    enable = true;
-    settings.user.name = "jkbSeven";
-    settings.user.email = "Jacob202@protonmail.com";
+    setVimAlias = true;
+    setEditorEnvVar = true;
   };
 
   personal.programs.hyprland.enable = true;
@@ -88,24 +65,6 @@
     package = pkgs.capitaine-cursors;
     name = "capitaine-cursors";
     size = 32;
-  };
-
-  programs.neovim = {
-    enable = true;
-    sideloadInitLua = true;
-
-    withNodeJs = false;
-    withPython3 = false;
-    withRuby = false;
-
-    # extraLuaPackages = ps: [ ps.magick ];
-
-    extraPackages = with pkgs; [
-      imagemagick
-      lua-language-server
-      pyright
-      nil
-    ];
   };
 
   programs.obsidian.enable = true;
