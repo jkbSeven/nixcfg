@@ -48,11 +48,8 @@ hl.config({
     }
 })
 
-hl.animation({ leaf = "workspaces", enabled = false })
-hl.animation({ leaf = "windows", enabled = true, speed = 1, curve = "default" })
-
 hl.bind(mod .. " + Q", hl.dsp.window.close())
-hl.bind(mod .. " + SHIFT + R", hl.dsp.reload_config())
+hl.bind(mod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
 
 hl.bind(mod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mod .. " + F", hl.dsp.exec_cmd(fileManager))
@@ -79,3 +76,6 @@ hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURC
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
+
+hl.animation({ leaf = "workspaces", enabled = false })
+hl.animation({ leaf = "windows", enabled = true, speed = 1, bezier = "default" })
