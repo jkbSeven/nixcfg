@@ -2,8 +2,8 @@
 {
   imports = [
     ./schemas
+    ./hyprland
     ./ghostty.nix
-    ./hyprland.nix
     ./git.nix
     ./zsh.nix
     ./neovim.nix

@@ -39,9 +39,6 @@ in
     ]
     ++ lib.optionals cfg.sessionizer.enable [ sessionizerScript ];
 
-    xdg.configFile.tmux = {
-      source = cfg.configFile;
-      target = "tmux/tmux.conf";
-    };
+    xdg.configFile."tmux/tmux.conf".source = cfg.configFile;
   };
 }
