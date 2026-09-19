@@ -1,5 +1,6 @@
 -- IMPORTANT:
 -- if not using NixOS, set these manually:
+-- local mod = "SUPER"
 -- local terminal = "ghostty"
 -- local menu = "wofi"
 -- local fileManager = "dolphin"

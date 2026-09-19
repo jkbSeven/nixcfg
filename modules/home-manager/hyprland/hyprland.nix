@@ -130,6 +130,10 @@ in
       extraConfig = builtins.readFile ./hyprland.lua;
 
       settings = {
+        mod = {
+          _var = "SUPER";
+        };
+
         terminal = {
           _var = "ghostty";
         };
