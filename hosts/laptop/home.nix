@@ -18,14 +18,15 @@
 
   fonts.fontconfig.enable = true;
 
-  home.packages = with pkgs; [
-    bat
-    jq
+  home.packages = [
+    pkgs.bat
+    pkgs.jq
+    pkgs.just
 
-    nerd-fonts.ubuntu-mono
+    pkgs.discord
+    pkgs.spotify
 
-    discord
-    spotify
+    pkgs.nerd-fonts.ubuntu-mono
   ];
 
   nixpkgs.config.allowUnfreePredicate =
