@@ -62,6 +62,23 @@ deploy env=default_env ssh_key_path="~/.ssh/keys/vm": (_build_tf_config env)
     cd homelab/deploy/{{ env }}/secrets && agenix -i "{{ ssh_key_path }}" --rekey
     colmena apply --config homelab/deploy/{{ env }}/hive.nix
 
+# fetch credentials and output env vars with tokens for bash eval
+[arg('env', long, pattern=env_pattern)]
+[group('homelab')]
+auth env=default_env:
+    #!/bin/sh
+
+    if [ {{env}} != "prod" ]; then
+        printf 'auth is supported for prod only\n'
+        exit 1
+    fi
+
+    PROXMOX_TOKEN=$(op read op://homelab/proxmox/api_token) || exit 1
+    UNIFI_TOKEN=$(op read "op://homelab/UCG MAX/api_token") || exit 1
+
+    printf 'export TF_VAR_proxmox_api_token="%s"\n' "$PROXMOX_TOKEN"
+    printf 'export TF_VAR_unifi_api_token="%s"\n' "$UNIFI_TOKEN"
+
 # switch to new nixos configuration on the current host
 switch config=default_switch_config:
     #!/bin/sh
