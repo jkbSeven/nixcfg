@@ -59,7 +59,7 @@ tf env=default_env +ARGS: (_build_tf_config env)
 [group('homelab')]
 deploy env=default_env ssh_key_path="~/.ssh/keys/vm": (_build_tf_config env)
     terraform -chdir=homelab/deploy/{{ env }}/tf apply
-    cd homelab/deploy/{{ env }}/secrets && agenix -i "{{ ssh_key_path }}" --rekey
+    cd homelab/deploy/{{ env }}/secrets && agenix -i {{ ssh_key_path }} --rekey
     colmena apply --config homelab/deploy/{{ env }}/hive.nix
 
 # fetch credentials and output env vars with tokens for bash eval
