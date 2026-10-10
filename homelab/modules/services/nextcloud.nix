@@ -17,7 +17,7 @@ in
   config = lib.mkIf cfg.enable {
 
     fileSystems."/mnt/nextcloud_data" = {
-      device = "nas.jkb7.dev:/mnt/main/nextcloud_data"; # FIXME: hardcoded NAS hostname
+      device = "nas.srv.${domain}:/mnt/main/nextcloud_data";
       fsType = "nfs4";
       options = [ "noatime" ];
     };
