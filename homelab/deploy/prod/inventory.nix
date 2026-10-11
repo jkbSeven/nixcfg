@@ -43,7 +43,7 @@ rec {
       vm = {
         cores = 2;
         memory = 4096;
-        disk = 32;
+        disk = 128;
         startOnBoot = false;
       };
       tags = [ ];
@@ -78,13 +78,9 @@ rec {
     map (roleName: { name = roleName; value = roleName; }) ["proxy" "monitoring" "nextcloud"]
   );
 
-  staticDNSRecords = {
+  dns = {
     immich = {
       name = "immich.srv.${domain}";
-      ip = nodes.nas.ip;
-    };
-    nas = {
-      name = "nas.jkb7.dev";
       ip = nodes.nas.ip;
     };
   };
@@ -92,7 +88,7 @@ rec {
   extraProxyVHosts = {
     "proxmox.${domain}" = {
       locations."/" = {
-        proxyPass = "https://proxmox.srv.jkb7.dev:8006";
+        proxyPass = "https://proxmox.srv.${domain}:8006";
         proxyWebsockets = true;
         extraConfig = "proxy_pass_header Authorization;";
       };
@@ -107,13 +103,23 @@ rec {
           proxy_send_timeout 3600s;
       */
       locations."/" = {
-        proxyPass = "http://${staticDNSRecords.immich.name}:30041";
+        proxyPass = "http://${dns.immich.name}:30041";
         proxyWebsockets = true;
         extraConfig = ''
           client_max_body_size 4G;
           proxy_request_buffering off;
           proxy_read_timeout 3600s;
           proxy_send_timeout 3600s;
+          proxy_pass_header Authorization;
+        '';
+      };
+    };
+
+    "nas.${domain}" = {
+      locations."/" = {
+        proxyPass = "http://nas.srv.${domain}";
+        proxyWebsockets = true;
+        extraConfig = ''
           proxy_pass_header Authorization;
         '';
       };

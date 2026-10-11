@@ -40,7 +40,7 @@ let
         record = entry.ip;
         ttl = 0;
       };
-    }) (builtins.attrValues inventory.staticDNSRecords) );
+    }) (builtins.attrValues inventory.dns) );
 
 in
 {
