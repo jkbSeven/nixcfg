@@ -131,14 +131,7 @@
       devShells = forAllSystems (
         system:
         let
-          pkgs = import nixpkgs-unstable {
-            inherit system;
-            config.allowUnfreePredicate =
-              pkg:
-              builtins.elem (nixpkgs-unstable.lib.getName pkg) [
-                "terraform"
-              ];
-          };
+          pkgs = import nixpkgs-unstable { inherit system; };
         in
         rec {
           default = deploy;
@@ -148,7 +141,7 @@
               pkgs.jq
 
               pkgs.colmena
-              pkgs.terraform
+              pkgs.opentofu
               agenix.packages.${system}.default
             ];
           };
