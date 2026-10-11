@@ -36,9 +36,10 @@ ls-nodes env=default_env:
 
     printf '%s\n' $nodes
 
+# build tofu infrastructure configuration (config.json)
 [arg('env', long, pattern=env_pattern)]
 [group('homelab')]
-_build_tf_config env=default_env:
+build-tf-config env=default_env:
     #!/bin/sh
     tf_path="homelab/deploy/{{ env }}/tf"
 
@@ -47,18 +48,18 @@ _build_tf_config env=default_env:
     chmod 0600 ${tf_path}/config.tf.json || exit 1
     rm ${tf_path}/config.tf.json.tmp || exit 1
 
-# run terraform commands within a given environment
+# run opentofu commands within a given environment
 [arg('env', long, pattern=env_pattern)]
 [group('homelab')]
-tf env=default_env +ARGS: (_build_tf_config env)
-    terraform -chdir=homelab/deploy/{{ env }}/tf {{ ARGS }}
+tf env=default_env +ARGS: (build-tf-config env)
+    tofu -chdir=homelab/deploy/{{ env }}/tf {{ ARGS }}
 
 # deploy infra changes for a given environment (tf + colmena)
 [arg('env', long, pattern=env_pattern)]
 [arg('ssh_key_path', long)]
 [group('homelab')]
-deploy env=default_env ssh_key_path="~/.ssh/keys/vm": (_build_tf_config env)
-    terraform -chdir=homelab/deploy/{{ env }}/tf apply
+deploy env=default_env ssh_key_path="~/.ssh/keys/vm": (build-tf-config env)
+    tofu -chdir=homelab/deploy/{{ env }}/tf apply
     cd homelab/deploy/{{ env }}/secrets && agenix -i {{ ssh_key_path }} --rekey
     colmena apply --config homelab/deploy/{{ env }}/hive.nix
 
