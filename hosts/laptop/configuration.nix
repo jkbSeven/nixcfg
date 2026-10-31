@@ -2,13 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
+  imports = [ ./hardware-configuration.nix ];
+
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "1password"
+      "1password-cli"
+    ];
 
   boot.loader.systemd-boot = {
     enable = true;
@@ -16,7 +20,6 @@
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.binfmt.emulatedSystems = [
@@ -27,15 +30,10 @@
   networking.hostName = "nixos-laptop";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
   networking.networkmanager = {
     enable = true;
     plugins = with pkgs; [
-      networkmanager-openvpn
+      networkmanager-openvpn  # for university VPN
     ];
   };
 
@@ -94,31 +92,26 @@
     packages = [ ];
   };
 
-  nixpkgs.config.allowUnfree = true;
+  programs.zsh.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    bat
-    vim
-    git
-    firefox
-    wireguard-tools
-    vlc
-    qemu
-
-    bluetui # TUI for bluetooth mgmt
+  environment.systemPackages = [
+    pkgs.bat
+    pkgs.vim
+    pkgs.git
+    pkgs.firefox
+    pkgs.wireguard-tools
+    pkgs.vlc
+    pkgs.qemu
+    pkgs.bluetui
   ];
 
   environment.localBinInPath = true;
 
   programs.hyprland = {
     enable = true;
-    withUWSM = true;
-    xwayland.enable = false;
+    withUWSM = false;
+    xwayland.enable = true;
   };
-
-  programs.waybar.enable = true;
-
-  programs.zsh.enable = true;
 
   programs._1password.enable = true;
   programs._1password-gui = {
@@ -137,25 +130,6 @@
 
   # keychain so that 1password and other apps can store credentials
   services.gnome.gnome-keyring.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

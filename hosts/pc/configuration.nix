@@ -1,11 +1,18 @@
-{ config, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "1password"
+      "1password-cli"
+      "steam"
+      "steam-unwrapped"
+    ];
 
   boot.loader.systemd-boot = {
     enable = true;
@@ -64,13 +71,16 @@
     packages = [ ];
   };
 
-  environment.systemPackages = with pkgs; [
-    bat
-    vim
-    git
-    firefox
-    vlc
-    qemu
+  # recommended to enable if using zsh in user cfg
+  programs.zsh.enable = true;
+
+  environment.systemPackages = [
+    pkgs.bat
+    pkgs.vim
+    pkgs.git
+    pkgs.firefox
+    pkgs.vlc
+    pkgs.qemu
   ];
 
   environment.localBinInPath = true;
@@ -80,10 +90,6 @@
     withUWSM = false;
     xwayland.enable = true;
   };
-
-  programs.waybar.enable = true;
-
-  programs.zsh.enable = true;
 
   programs._1password.enable = true;
   programs._1password-gui = {
