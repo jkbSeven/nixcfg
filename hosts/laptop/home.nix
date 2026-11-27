@@ -70,6 +70,7 @@
   personal.programs.ghostty.enable = true;
 
   home.pointerCursor = {
+    enable = true;
     package = pkgs.capitaine-cursors;
     name = "capitaine-cursors";
     size = 32;
